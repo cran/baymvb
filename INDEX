@@ -1,0 +1,5 @@
+baymvb                  Bayesian analysis of multivariate binary data
+densPlot                Provides density plot for individual
+                        parameters
+summary.baymvb          Printing summary of the 'baymvb' mcmc output
+tracePlot               Provides trace for an individual parameter
