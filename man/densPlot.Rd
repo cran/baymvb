@@ -3,7 +3,7 @@
 
 \title{Provides density plot for individual parameters}
 \description{
-   `pdensplot' offers a flexibility of
+   `densPlot' offers a flexibility of
     plotting density of each parameter individually
 }
 \usage{
@@ -42,4 +42,4 @@ Density plot
 
 \keyword{models}
 
-\author{S. M. Mwalili <samuelmwalili@yahoo.com>}
+ \author{S. M. Mwalili \email{samuel\_mwalili@yahoo.com}}

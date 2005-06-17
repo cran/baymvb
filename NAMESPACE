@@ -1,0 +1,28 @@
+useDynLib(baymvb)
+
+export(
+baymvb, 
+densPlot, 
+print.baymvb, 
+summary.baymvb,
+tracePlot,
+xpndCor)
+
+# S3method(baymvb, baymvb)
+# S3method(densPlot, baymvb)
+# S3method(print.baymvb, baymvb)
+# S3method(summary.baymvb, baymvb)
+# S3method(teeth4, baymvb)
+# S3method(tracePlot, baymvb)
+
+
+
+
+
+
+
+
+
+
+
+

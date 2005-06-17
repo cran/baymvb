@@ -165,4 +165,4 @@ tracePlot(out.mvt,6,main="Age(mvt)")
 
 \keyword{models}
 
-\author{S. M. Mwalili <samuelmwalili@yahoo.com>}
+ \author{S. M. Mwalili \email{samuel\_mwalili@yahoo.com}}

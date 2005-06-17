@@ -7,4 +7,5 @@
 }
 
 \keyword{internal}
-\author{S. M. Mwalili <samuelmwalili@yahoo.com>}
+
+ \author{S. M. Mwalili \email{samuel\_mwalili@yahoo.com}}

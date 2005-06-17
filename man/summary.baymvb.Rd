@@ -27,5 +27,5 @@
 \code{\link{tracePlot}},\code{\link{densPlot}}.
 }
 
-\keyword{models}
-\author{S. M. Mwalili <samuelmwalili@yahoo.com>}
+\keyword{internal}
+ \author{S. M. Mwalili \email{samuel\_mwalili@yahoo.com}}

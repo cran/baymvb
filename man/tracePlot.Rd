@@ -3,7 +3,7 @@
 
 \title{Provides trace for an individual parameter}
 \description{
-   `ptraceplot' offers a flexibility of
+   `tracePlot' offers a flexibility of
     plotting trace for each parameter alone
 }
 \usage{
@@ -38,4 +38,4 @@ Trace plot
 
 \keyword{models}
 
-\author{S. M. Mwalili <samuelmwalili@yahoo.com>}
+ \author{S. M. Mwalili \email{samuel\_mwalili@yahoo.com}}
