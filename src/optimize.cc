@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/optimize.cc
+ * optimize.cc
  *
  * Provides implementations of various numerical optimization
  * routines.
@@ -34,14 +34,14 @@
 #include "smath.h"
 #include "stat.h"
 #else
-#include "scythestat/optimize.h"
-#include "scythestat/error.h"
-#include "scythestat/util.h"
-#include "scythestat/distributions.h"
-#include "scythestat/la.h"
-#include "scythestat/ide.h"
-#include "scythestat/smath.h"
-#include "scythestat/stat.h"
+#include "optimize.h"
+#include "error.h"
+#include "util.h"
+#include "distributions.h"
+#include "la.h"
+#include "ide.h"
+#include "smath.h"
+#include "stat.h"
 #endif
 
 // Avoid NameSpace Pollution
@@ -636,7 +636,7 @@ namespace SCYTHE {
 }  // namespace dec
 
 #ifndef SCYTHE_COMPILE_DIRECT
-#include "scythestat/eti/optimize.t"
+#include "eti/optimize.t"
 #endif
 
 #endif /* SCYTHE_OPTIMIZE_CC */

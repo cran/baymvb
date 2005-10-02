@@ -198,24 +198,24 @@ using namespace std;
        		Matrix<double> beta_var_sum(P,P);
                	Matrix<double> beta_mean_sum(P,1);
                	Matrix<double> invR = invpd(R);
-                double z_mu, z_sd;
+                double z_mu, z_var;
        			for (int i=0; i<N; ++i){
        				const Matrix<double> Z_mean = Xarr[i] * beta;	
        			   	const Matrix<double> invwR = (PHI[i]/ML_S2)*invR;
        				for(int j = 0; j < J; ++j) {
-       					cndnorm(Zarr[i],Z_mean,invwR, J, j + 1, z_mu, z_sd);	 		
+       					cndnorm(Zarr[i],Z_mean,invwR, J, j + 1, z_mu, z_var);	 		
        			  		if (Yarr[i](j,0) == 1.0){
-       					Zarr[i](j,0) = stream->rtbnorm_combo(z_mu, z_sd, 0); 
+       					Zarr[i](j,0) = stream->rtbnorm_combo(z_mu, z_var, 0); 
        					if(isinf(Zarr[i](j,0)))
        						Zarr[i](j,0) = 1;
        					}
        					if (Yarr[i](j,0) == 0.0){
-       					Zarr[i](j,0) = stream->rtanorm_combo(z_mu, z_sd, 0); 
+       					Zarr[i](j,0) = stream->rtanorm_combo(z_mu, z_var, 0); 
        					if(isinf(Zarr[i](j,0)))
        						Zarr[i](j,0) = -1;
        					}
        					if (Yarr[i](j,0) != 1.0 && Yarr[i](j,0) != 0.0)
-       					Zarr[i](j,0) = stream->rnorm(z_mu, z_sd);
+       					Zarr[i](j,0) = stream->rnorm(z_mu, z_var);
        				}//e.o.j
        				
        
@@ -249,9 +249,8 @@ using namespace std;
 	      //(ii) generate signed distance   
        		Matrix<double> zvalues =  Matrix<double>(J,1);
 		Matrix<double> zvector =  eye<double>(J);
-	        Matrix<double> Rcopy   = R;
 		     
-		JACOBI(Rcopy,zvalues,zvector); // eigen values/vectors
+		JACOBI(R,zvalues,zvector); // eigen values/vectors
 		
 		const double zeta    = min(zvalues);           // min eigen value
 		const double d_lower = -zeta/::sqrt(2);
@@ -272,17 +271,14 @@ using namespace std;
              
 		// (iv) draw candidate
 	      	const Matrix<double> R_can = R + H;
-	        Rcopy = R_can;
        		Matrix<double> zval_star =  Matrix<double>(J,1);
 		Matrix<double> zvec_star =  eye<double>(J);
 
-	        JACOBI(Rcopy,zval_star,zvec_star);  	// eigen values/vectors
+	        JACOBI(R_can,zval_star,zvec_star);  	// eigen values/vectors
 		double zsta  = min(zval_star);  	// min eigen value
 		    
-		    
-		Rcopy = R_can;
-                
-	        if(ispd(Rcopy)){
+              
+	        if(ispd(R_can)){
 	         const  double logp_R_cur = logp_R(R    ,R0, G0, Xarr,beta, Zarr, PHI, zeta, SD);
 	         const  double logp_R_can = logp_R(R_can,R0, G0, Xarr,beta, Zarr, PHI, zsta, SD);
 	      	 const double ratio = ML_MIN(::exp(logp_R_can - logp_R_cur),1.0); 

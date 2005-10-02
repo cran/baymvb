@@ -157,13 +157,14 @@ namespace SCYTHE {
          
     // evaluate the eigein values and vectors of a symmetric matrix
      template <class T>
-     void JACOBI(Matrix<T>& A, Matrix<T>& d, Matrix<T>& V)
+     void JACOBI(const Matrix<T>& B, Matrix<T>& d, Matrix<T>& V)
     //Computes all eigenvalues and eigenvectors of a real symmetric matrix A(1..n,1..n). On
     //output, elements of a above the diagonal are destroyed. d(1..n) returns the eigenvalues of a.
     //V(1..n,1..n) is a matrix whose columns contain, on output, the normalized eigenvectors of
     //A. nrot returns the number of Jacobi rotations that were required.
     {  
         int nrot;
+        Matrix<double> A = B;
         int n = A.rows();
         int j,iq,ip,i;
         double tresh,theta,tau,t,sm,s,h,g,c;
@@ -289,12 +290,11 @@ namespace SCYTHE {
     template <class T>
 	void cndnorm(const Matrix<T> &Z, const Matrix<T> &Xbeta, 
              const Matrix<T> &invS, const int& p, 
-             const int& j, double& muj, double& sdj)
+             const int& j, double& muj, double& varj)
 	{
 	//	function to compute moments of Z[j] | Z[-j]  //
 
 		int cnt,i,j0;
-		double varj;
 		j0=j-1;
 		cnt = p*j0;
 		varj = 1./invS[cnt+j0];
@@ -307,7 +307,6 @@ namespace SCYTHE {
 				}
 			}
 		muj=Xbeta[j0] + muj;
-		sdj=::sqrt(varj);
 	}
 
     // return A %x% ones (K)

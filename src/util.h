@@ -1,4 +1,4 @@
-/* 
+/*
  * Scythe Statistical Library
  * Copyright (C) 2000-2002 Andrew D. Martin and Kevin M. Quinn;
  * 2002-2004 Andrew D. Martin, Kevin M. Quinn, and Daniel
@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/util.h
+ * util.h
  *
  * Provides definitions and implementations for some basic
  * utilities used within Scythe.

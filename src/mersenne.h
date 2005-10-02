@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/rng/mersenne.h
+ * rng/mersenne.h
  *
  * Provides the class definition for the mersenne random number
  * generator.  This class extends the base rng class by providing an
@@ -63,7 +63,11 @@
 #ifndef SCYTHE_MERSENNE_H
 #define SCYTHE_MERSENNE_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "rng.h"
+#else
+#include "rng.h"
+#endif
 
 namespace SCYTHE {
 

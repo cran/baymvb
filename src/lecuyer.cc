@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/rng/lecuyer.cc
+ * rng/lecuyer.cc
  * 
  * Implemenation of the L'Ecuyer rng.  See lecuyer.h for further
  * copyright information.
@@ -28,8 +28,8 @@
 #include "lecuyer.h"
 #include "error.h"
 #else
-#include "scythestat/rng/lecuyer.h"
-#include "scythestat/error.h"
+#include "rng/lecuyer.h"
+#include "error.h"
 #endif
 
 namespace SCYTHE {

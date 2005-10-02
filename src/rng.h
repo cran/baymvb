@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/rng.h
+ * rng.h
  *
  * Provides the class definition for the rng class.  This abstract
  * class forms the foundation of random number generation in Scythe.
@@ -39,7 +39,11 @@
 #ifndef SCYTHE_RNG_H
 #define SCYTHE_RNG_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 namespace SCYTHE {
 

@@ -21,8 +21,13 @@
 #ifndef SCYTHE_OPTIMIZE_H
 #define SCYTHE_OPTIMIZE_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
 #include "rng.h"
+#else
+#include "matrix.h"
+#include "rng.h"
+#endif
 
 // Avoid NameSpace Pollution
 namespace SCYTHE {

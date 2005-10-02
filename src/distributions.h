@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/distributions.h
+ * distributions.h
  *
  * Provides definitions for PDFs, CDFs, and some common functions
  * (gamma, beta, etc).
@@ -24,7 +24,11 @@
 
 #include <cfloat>
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 /* Fill in some defs from R that aren't in math.h */
 #ifndef M_PI

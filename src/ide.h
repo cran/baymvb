@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/ide.h
+ * ide.h
  *
  * Provides definitions for inversion and decomposition
  * template functions that operate on Scythe's Matrix class.
@@ -21,7 +21,11 @@
 #ifndef SCYTHE_IDE_H
 #define SCYTHE_IDE_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 namespace SCYTHE {
 

@@ -9,8 +9,8 @@
 }
 \usage{
 baymvb(formula, data = parent.frame(), nvars=8,burnin = 1000, mcmc = 2000,
-       thin=1, seed = NA, beta.start = NA, b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, 
-       R.start=NA, refresh=100, sd=0.3, distr=c("mvprobit", "mvt"),...)
+           thin=1, seed = NA, beta.start = NA, b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, 
+           R.start=NA, refresh=100, sd=0.6, distr=c("mvprobit", "mvt"),...)
 
 }
 
@@ -125,18 +125,19 @@ names(teeth4)
 
 # a: Multivariate probit
 out.mvprobit <- baymvb(formula=y~ factor(tooth) + gender + age,data=teeth4, 
-			nvars=4,burnin = 1000, mcmc = 1000,distr="mvprobit")
-out.mvprobit
-summary(out.mvprobit)
+			nvars=4,burnin = 1000, mcmc = 2000, refresh=250,distr="mvprobit")
+out.mvprobit # summary(out.mvprobit)
+# compare with GLM
+fit.probit <- glm(y~ factor(tooth) + gender + age,family=binomial(probit),data=teeth4)
+cbind(mvprobit=colMeans(out.mvprobit$samples)[1:6],glm.probit=fit.probit$coeff)
+
 # b: Multivariate t-link
 out.mvt      <- baymvb(formula=y~ factor(tooth) + gender + age,data=teeth4, 
-			nvars=4,burnin = 1000, mcmc = 1000,distr="mvt")
-out.mvt
-summary(out.mvt)			
-fit <- glm(y~ factor(tooth) + gender + age,family=binomial(logit),data=teeth4)
-
-# compare with GLM. NOTE: increase the value of burnin and mcmc for better results 
-cbind(mvt=colMeans(out.mvt$samples)[1:6],mvprobit=colMeans(out.mvprobit$samples)[1:6],glm=fit$coeff)
+			nvars=4,burnin = 1000, mcmc = 2000, refresh=250,distr="mvt")
+out.mvt # summary(out.mvt)			
+# compare with GLM
+fit.logit <- glm(y~ factor(tooth) + gender + age,family=binomial(logit),data=teeth4)
+cbind(mvt=colMeans(out.mvt$samples)[1:6],glm.logit=fit.logit$coeff)
 
 # correlation matrix from a vector of unique elements of R
 R.mvprobit <- xpndCor(out.mvprobit)

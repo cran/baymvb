@@ -1,15 +1,15 @@
 "baymvb" <-
   function(formula, data = parent.frame(), nvars=8,burnin = 1000, mcmc = 2000,
-           thin=1, seed = NA, beta.start = NA,
-           b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, R.start=NA, refresh=100, sd=0.3, distr=c("mvprobit", "mvt"),...)
+           thin=1, seed = NA, beta.start = NA, b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, 
+           R.start=NA, refresh=100, sd=0.6, distr=c("mvprobit", "mvt"),...)
            {
 
     check.bayes.parm(burnin, mcmc, thin)
     
     # choice of distribution function
-    distr <- pmatch(distr,c("mvprobit", "mvt"))
-    if(is.na(distr)) stop("Invalid choice of the distribution function. See argument'distr'")
-    distr <-  distr - 1
+     distr <- match.arg(distr)
+     distr <- ifelse(distr=="mvt",1,0)
+ 
 
     ## seeds
     seeds <- form.seeds(seed) 
@@ -30,30 +30,35 @@
    ## y \in {0, 1,-999} error checking
     if (sum(Y!=0 & Y!=1 & Y!=-999) > 0) {
        cat("Elements of Y equal to something other than 0 or 1 or -999.\n")
-       stop("Check data and call MCMCmvlogit() again. \n") 
+       stop("Check data and call baymvb() again. \n") 
     }
     
    ## starting values and priors
-   # starting values for beta error checking
-    Y2 <- Y + (999+ rbinom(1,1,.5))*(Y==-999)
-    glm.beta <- glm(Y2 ~ X - 1,family=binomial(logit))$coeff
-
-    if (is.na(beta.start)){ 
-      beta.start <- glm.beta
+    Y2 <- Y + (999 + rbinom(1, 1, 0.5)) * (Y == -999)
+    glm.beta <- glm(Y2 ~ X - 1, family = binomial(logit))$coeff
+    if (is.na(beta.start)) {
+        beta.start <- glm.beta
     }
-    if(is.null(dim(beta.start))) {
-      beta.start <- beta.start * matrix(1,P,1)  
+    if (is.null(dim(beta.start))) {
+        beta.start <- beta.start * matrix(1, P, 1)
+    }
+    if (!is.na(R.start) & is.null(dim(R.start))) {
+        R.start <- R.start  + (1 - R.start) *  diag(nvars)
+    }
+    if (is.null(dim(R.start))) {
+        R.start <-  diag(nvars)
+    }
+
+    
+    if(length(beta.start) != P) {
+          cat(paste("Error: Starting value for  beta not
+          	comformable [ length(beta) =",length(beta)," != ",P,"].",sep=""),"\n")
+          stop("Please respecify and call baymvb() again.\n", call.=FALSE)
     }
     
-     if (!is.na(R.start) & is.null(dim(R.start))){ # use least squares estimates
-      R.start <- R.start*matrix(1,nvars,nvars) + (1-R.start) * diag(nvars)  
-    }
-    if(is.null(dim(R.start))) {
-      R.start <- cor.start(Y,N,nvars)
-    }
     if((dim(R.start)[1] != nvars) || (dim(R.start)[2] != nvars)) {
-      cat(paste("Error: Error: Starting value for  R not comformable [",nvars," times ",nvars,"].",sep=""),"\n")
-      stop("Please respecify and call MCMCpanel() again.\n", call.=FALSE)
+      cat(paste("Error: Starting value for  R not comformable [",nvars," times ",nvars,"].",sep=""),"\n")
+      stop("Please respecify and call baymvb() again.\n", call.=FALSE)
     }
     
     mvn.prior <- form.mvn.prior(b0, B0, P )

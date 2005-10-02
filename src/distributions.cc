@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/distributions.cc
+ * distributions.cc
  *
  * Provides implementations of PDFs, CDFs, and some common functions
  * (gamma, beta, etc).
@@ -39,12 +39,12 @@
 #include "stat.h"
 #include "la.h"
 #else
-#include "scythestat/distributions.h"
-#include "scythestat/error.h"
-#include "scythestat/util.h"
-#include "scythestat/ide.h"
-#include "scythestat/stat.h"
-#include "scythestat/la.h"
+#include "distributions.h"
+#include "error.h"
+#include "util.h"
+#include "ide.h"
+#include "stat.h"
+#include "la.h"
 #endif
 
 #ifndef HAVE_TRUNC

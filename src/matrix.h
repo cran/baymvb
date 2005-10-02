@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/matrix.h
+ * matrix.h
  *
  * Provides the class definition for the Matrix class; this
  * data structure sits at the core of the library.  This class
@@ -34,9 +34,15 @@
 #include <climits>
 #include <cmath>
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "error.h"
 #include "util.h"
 #include "matrix_iterator.h"
+#else
+#include "error.h"
+#include "util.h"
+#include "matrix_iterator.h"
+#endif
 
 namespace SCYTHE {
 

@@ -76,7 +76,7 @@ namespace SCYTHE {
 
     // computing eigen value/ eigen vector for symmetric matrix
      template <class T>
-     void JACOBI(Matrix<T>& A, Matrix<T>& d, Matrix<T>& V);
+     void JACOBI(const Matrix<T>& B, Matrix<T>& d, Matrix<T>& V);
 
     // evaluate the conditional variance of MVN
     template <class T>
@@ -94,12 +94,12 @@ namespace SCYTHE {
     // extract the unique elements of the correlation matrix
     template <class T>
     Matrix<T> UNIK(const Matrix<T> &A);
-    
+
     // evaluate the conditional moments of MVN in efficient way
     template <class T>
-	void cndnorm(const Matrix<T> &Z, const Matrix<T> &Xbeta, 
-             const Matrix<T> &invS, const int& p, 
-             const int& j, double& muj, double& sdj);
+	void cndnorm(const Matrix<T> &Z, const Matrix<T> &Xbeta,
+             const Matrix<T> &invS, const int& p,
+             const int& j, double& muj, double& varj);
 
 } // end namespace SCYTHE
 #if defined (__GNUG__) || defined (__MWERKS__) || defined (_MSC_VER) || \

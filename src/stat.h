@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/stat.h
+ * stat.h
  *
  * Provides declarations for descriptive statistical
  * functions.
@@ -21,7 +21,11 @@
 #ifndef SCYTHE_STAT_H
 #define SCYTHE_STAT_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 namespace SCYTHE {
 

@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/stat.cc
+ * stat.cc
  *
  * Provides implementations of descriptive statistical
  * functions.
@@ -30,9 +30,9 @@
 #include "error.h"
 #include "util.h"
 #else
-#include "scythestat/stat.h"
-#include "scythestat/error.h"
-#include "scythestat/util.h"
+#include "stat.h"
+#include "error.h"
+#include "util.h"
 #endif
 
 namespace SCYTHE {
@@ -425,7 +425,7 @@ namespace SCYTHE {
 } // end namespace SCYTHE
 
 #ifndef SCYTHE_COMPILE_DIRECT
-#include "scythestat/eti/stat.t"
+#include "eti/stat.t"
 #endif
   
 #endif /* SCYTHE_STAT_CC */

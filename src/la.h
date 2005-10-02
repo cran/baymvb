@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/la.h
+ * la.h
  *
  * Provides definitions for functions that perform common
  * linear algebra manipulations on Scythe matrices.
@@ -21,7 +21,11 @@
 #ifndef SCYTHE_LA_H
 #define SCYTHE_LA_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 namespace SCYTHE {
 

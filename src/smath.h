@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/math.h
+ * math.h
  *
  * Provides definitions for the template wrapper functions
  * that allow common math.h operations to be performed on
@@ -22,7 +22,11 @@
 #ifndef SCYTHE_MATH_H
 #define SCYTHE_MATH_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "matrix.h"
+#else
+#include "matrix.h"
+#endif
 
 /* This portion of the library mimics math.h for Matrix<T> objects.  T
  * should be a floating point type of either float, double or long

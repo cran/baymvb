@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/rng/lecuyer.h
+ * rng/lecuyer.h
  *
  * Provides the class definition for the L'Ecuyer random number
  * generator, a rng capable of generating many independent substreams.
@@ -48,7 +48,11 @@
 #ifndef SCYTHE_LECUYER_H
 #define SCYTHE_LECUYER_H
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "rng.h"
+#else
+#include "rng.h"
+#endif
 
 namespace SCYTHE {
 

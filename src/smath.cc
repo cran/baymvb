@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/math.cc
+ * math.cc
  *
  * Provides implementations of the template wrapper functions
  * that allow common math.h operation to be performed on
@@ -29,9 +29,9 @@
 #include "error.h"
 #include "util.h"
 #else
-#include "scythestat/smath.h"
-#include "scythestat/error.h"
-#include "scythestat/util.h"
+#include "smath.h"
+#include "error.h"
+#include "util.h"
 #endif
 
 namespace SCYTHE {
@@ -619,7 +619,7 @@ namespace SCYTHE {
 } // end namespace SCYTHE
 
 #ifndef SCYTHE_COMPILE_DIRECT
-#include "scythestat/eti/smath.t"
+#include "eti/smath.t"
 #endif
 
 #endif /* SCYTHE_MATH_CC */

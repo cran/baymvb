@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/rng/mersenne.cc
+ * rng/mersenne.cc
  *
  * Provides the implementation for the mersenne class.  This is the
  * default random number generator in scythe.  See mersenne.h for

@@ -11,7 +11,7 @@
  * and LICENSE, distributed with this source code, for further
  * information.
  * --------------------------------------------------------------------
- * scythestat/matrix_iterator.h
+ * matrix_iterator.h
  *
  * Provides definitions and implementations of iterators for
  * the Matrix class.  These iterators conform to the
@@ -27,9 +27,15 @@
 #include <iterator>
 #include <cmath>
 
+#ifdef SCYTHE_COMPILE_DIRECT
 #include "error.h"
 #include "util.h"
 #include "matrix.h"
+#else
+#include "error.h"
+#include "util.h"
+#include "matrix.h"
+#endif
 
 namespace SCYTHE {
 
