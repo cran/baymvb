@@ -77,12 +77,12 @@ using namespace std;
            double logp_R(const Matrix<double>& R, const Matrix<double>& R0,const Matrix<double>& G0,
     			  const Matrix<double> *Xarr, const Matrix<double>& beta, 
     			  const Matrix<double> *Zarr,const Matrix<double>&PHI, 
-    			  const double& zeta, const double& SD)
+    			  const double& zeta, const double& sd)
 	  {   
 		  // define constants
           	const int N = PHI.rows();
           	const int J = R.rows();
-		const double q = zeta/(::sqrt(2)*SD);
+		const double q = zeta/(::sqrt(2)*sd);
 	
  		// log eigen value contribution
 		double log_ee = ::log(pnorm(q)-pnorm(-q));
@@ -98,7 +98,6 @@ using namespace std;
    		for(int i=0; i<N; i++){
 		 	Matrix<double> invwR = (PHI[i]/ML_S2)*invR;
 		 	Matrix<double> Xb = Xarr[i] * beta;
-			//log_SSE += lndmvn(Zarr[i], Xb, wR);
    		 	log_SSE -= static_cast<double>(J)*log(ML_S2/PHI[i]) +  lndR + (t(Zarr[i]-Xb)*invwR*(Zarr[i]-Xb))[0];
 			}
 		  return log_ee + log_pi_R + 0.5*log_SSE;
@@ -111,7 +110,7 @@ using namespace std;
  		const double *Xdata,const int *Xrow, const int *Xcol, 
  		const int *burnin, 	const int *mcmc, const int *thin, 
  		const int *lecuyer, const int *seedarray, 
- 		const int *lecuyerstream, const int *refr, 
+ 		const int *lecuyerstream,
  		const double *betastartdata, const int *betastartrow, const int *betastartcol,
  		const double *Rstartdata, const int *Rstartrow, const int *Rstartcol, 
 		const double *b0data, const int *b0row, const int *b0col, 
@@ -119,7 +118,7 @@ using namespace std;
 		const double *R0data, const int *R0row, const int *R0col, 
 		const double *G0data, const int *G0row, const int *G0col, 
 		const int* nn, const int* nvar, const int* np,  
-		const int* distr, const double *sd) {
+		const int* distr, const double *std) {
 		 
 		// pull together Matrix objects
 		const Matrix <double> Y = r2scythe(*Yrow, *Ycol, Ydata);
@@ -139,8 +138,7 @@ using namespace std;
 		const int J = nvar[0];                 // # of variables in the model
  		const int N = nn[0];                   // # of subjects in the model
 		const int K = P + J*(J-1)/2;           // total # parameters to store
-             	const int refresh = refr[0];
-             	const double SD = sd[0];
+             	const double sd = std[0];
              	const int uniks       = J*(J-1)/2;
              
 		// create arrays of matrices for data access
@@ -188,7 +186,10 @@ using namespace std;
        		int count = 0;
        		int accepts = 0; 
        		
-       		 for (int iter = 0; iter < tot_iter; ++iter){
+       		int progress = 1;
+		int itemp =  static_cast<int> (floor((double)tot_iter/10));
+       		
+       		for (int iter = 0; iter < tot_iter; ++iter){
        							 
                	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
           	//                    sample Z | X, R, phi
@@ -215,21 +216,21 @@ using namespace std;
        						Zarr[i](j,0) = -1;
        					}
        					if (Yarr[i](j,0) != 1.0 && Yarr[i](j,0) != 0.0)
-       					Zarr[i](j,0) = stream->rnorm(z_mu, z_var);
+       					Zarr[i](j,0) = stream->rnorm(z_mu, ::sqrt(z_var));
        				}//e.o.j
        				
        
        		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-               	 //            Sample     phi | Z, X, R
-               	 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                //            Sample     phi | Z, X, R
+               	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                	 if(*distr){
        		 const Matrix<double> tZRZ  = t(Zarr[i] - Xarr[i] * beta)*invR*(Zarr[i] - Xarr[i] * beta);
        		 const double PHI_beta  = (ML_NU + (1/ML_S2)*tZRZ[0])/2.0;
        		  PHI[i] = stream->rgamma(PHI_alpha,PHI_beta); 
                   }
-               	 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-               	 //            Sample     beta | Z, X, R
-               	 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+               	//            Sample     beta | Z, X, R
+               	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                	beta_var_sum = beta_var_sum   + PHI[i]*(t(Xarr[i]) * invR * Xarr[i]);
                	beta_mean_sum = beta_mean_sum + PHI[i]*(t(Xarr[i]) * invR * Zarr[i]);
                		
@@ -256,7 +257,7 @@ using namespace std;
 		const double d_lower = -zeta/::sqrt(2);
 		const double d_upper =  zeta/::sqrt(2);
 	       
-		const double d = stream->rtnorm(0.0,SD,d_lower,d_upper);
+		const double d = stream->rtnorm(0.0,sd*sd,d_lower,d_upper);
 		     
 	       //(iii) calculate H
 	    	Matrix<double> H = 0*eye<double>(J);
@@ -279,8 +280,8 @@ using namespace std;
 		    
               
 	        if(ispd(R_can)){
-	         const  double logp_R_cur = logp_R(R    ,R0, G0, Xarr,beta, Zarr, PHI, zeta, SD);
-	         const  double logp_R_can = logp_R(R_can,R0, G0, Xarr,beta, Zarr, PHI, zsta, SD);
+	         const  double logp_R_cur = logp_R(R    ,R0, G0, Xarr,beta, Zarr, PHI, zeta, sd);
+	         const  double logp_R_can = logp_R(R_can,R0, G0, Xarr,beta, Zarr, PHI, zsta, sd);
 	      	 const double ratio = ML_MIN(::exp(logp_R_can - logp_R_cur),1.0); 
 	      	 
 	      	 
@@ -301,20 +302,21 @@ using namespace std;
 	       		}
           		++count;
          	}
-	                 
- 
-		if(refresh > 0 && (iter+1)%refresh==0 ){
-		  Rprintf("\n\t MCMC iteration %i [ MH rate = %3.5f ] \n",(iter+1), 
-		  100.0*static_cast<double>(accepts) /static_cast<double>(iter+1));
-		}	
+
+ 	     if((iter + 1) >= itemp){ 
+ 		Rprintf("\tMCMC sampling %3i percent complete ... [MH-rate = %3.5f]\n", progress*10,
+ 		100.0*static_cast<double>(accepts) / static_cast<double>(iter + 1));
+ 		itemp +=  static_cast<int> (floor((double)tot_iter/10));
+ 		progress += 1;
+ 	    } 
 			
          }//iter
 	
 	// print the the acceptance rate to the console 
 	  Rprintf("\n------------------------------------------------------\n");
-	  if(!(*distr))  Rprintf("... Posterior Draws from Multivariate Probit Model ...\n");
-	  if(*distr)     Rprintf("... Posterior Draws from Multivariate t-link Model ...\n");
-	  Rprintf("... The Metropolis acceptance rate was %3.5f     ...", 
+	  if(!(*distr))  Rprintf("... Posterior draws from multivariate probit model ...\n");
+	  if(*distr)     Rprintf("... Posterior draws from multivariate t-link model ...\n");
+	  Rprintf("... The Metropolis acceptance rate was %3.5f    ...", 
 	   100.0*static_cast<double>(accepts) / static_cast<double>(tot_iter));
 	  Rprintf("\n------------------------------------------------------\n");
 

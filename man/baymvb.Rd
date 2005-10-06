@@ -10,7 +10,7 @@
 \usage{
 baymvb(formula, data = parent.frame(), nvars=8,burnin = 1000, mcmc = 2000,
            thin=1, seed = NA, beta.start = NA, b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, 
-           R.start=NA, refresh=100, sd=0.6, distr=c("mvprobit", "mvt"),...)
+           R.start=NA, sd=0.6, distr=c("mvprobit", "mvt"),...)
 
 }
 
@@ -32,11 +32,6 @@ baymvb(formula, data = parent.frame(), nvars=8,burnin = 1000, mcmc = 2000,
     \item{thin}{The thinning interval used in the simulation.  The number of
     Gibbs iterations must be divisible by this value.}
 
-    \item{refresh}{A switch which determines whether or not the progress of
-    the sampler is printed to the screen.  If \code{refresh} is greater
-    than 0 the iteration number and the MCMC iterations and 
-    acceptace rate are printed to the screen every \code{refresh}-th iteration.}
-  
     \item{seed}{The seed for the random number generator.  If NA, the Mersenne
       Twister generator is used with default seed 12345; if an integer is 
       passed it is used to seed the Mersenne twister.  The user can also

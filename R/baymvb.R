@@ -1,7 +1,7 @@
 "baymvb" <-
   function(formula, data = parent.frame(), nvars=8,burnin = 1000, mcmc = 2000,
            thin=1, seed = NA, beta.start = NA, b0 = 0, B0 = 0, R0 = 0.0, G0 = 1, 
-           R.start=NA, refresh=100, sd=0.6, distr=c("mvprobit", "mvt"),...)
+           R.start=NA, sd=0.6, distr=c("mvprobit", "mvt"),...)
            {
 
     check.bayes.parm(burnin, mcmc, thin)
@@ -90,7 +90,6 @@
             lecuyer     = as.integer(lecuyer), 
             seedarray   = as.integer(seed.array), 
             lstream     = as.integer(lecuyer.stream), 
-            refresh     = as.integer(refresh), 
             betastart   = as.double(beta.start), 
             betaow      = as.integer(nrow(beta.start)), 
             betacol     = as.integer(ncol(beta.start)),
